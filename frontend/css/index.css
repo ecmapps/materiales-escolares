@@ -1,0 +1,234 @@
+/* Importar Fuentes */
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Regular.woff') format('woff2'),
+        url('../fonts/Poppins-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Bold.woff2') format('woff2'),
+        url('../fonts/Poppins-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-Italic.woff2') format('woff2'),
+        url('../fonts/Poppins-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('../fonts/Poppins-BoldItalic.woff2') format('woff2'),
+        url('../fonts/Poppins-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cabin';
+    src: url('../fonts/Cabin-Regular.woff2') format('woff2'),
+        url('../fonts/Cabin-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cabin';
+    src: url('../fonts/Cabin-Bold.woff2') format('woff2'),
+        url('../fonts/Cabin-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cabin';
+    src: url('../fonts/Cabin-Italic.woff2') format('woff2'),
+        url('../fonts/Cabin-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Cabin';
+    src: url('../fonts/Cabin-BoldItalic.woff2') format('woff2'),
+        url('../fonts/Cabin-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Opciones para el cuerpo y elementos de texto */
+body {
+    font-family: 'Cabin', sans-serif;
+    font-size: 16px;
+}
+
+p {
+    font-family: 'Cabin', sans-serif;
+    font-size: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Opciones para hypervinculos */
+body a {
+    color: var(--link-azul);
+    text-decoration: underline;
+    transition: color 0.2s;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.875rem;
+    /* 14px */
+}
+
+body a:hover,
+body a:focus {
+    color: var(--link-morado);
+    text-decoration: underline;
+}
+
+.btn-mep {
+    border-radius: 2rem;
+    padding: 10px 16px;
+    font-family: 'Cabin', sans-serif;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.btn-mep.azul {
+    background-color: var(--base-azul);
+    color: var(--base-blanco);
+    border-color: var(--base-azul);
+}
+
+.btn-mep.dorado {
+    background-color: var(--acento-dorado);
+    color: var(--base-azul);
+    border-color: var(--acento-dorado);
+}
+
+.btn-mep.azul:hover,
+.btn-mep.azul:focus,
+.btn-mep.dorado:hover,
+.btn-mep.dorado:focus {
+    background-color: transparent;
+    color: var(--base-azul);
+    text-decoration: none;
+}
+
+/* Colores principales */
+/* Para temas usar [theme='default'] */
+:root {
+    --base-azul: #182951;
+    --base-blanco: #FFFFFF;
+    --base-gris: #4F4F4F;
+    --acento-dorado: #CFAC65;
+    --redes-amarillo: #FFCB30;
+
+    --fondo-gris: #F5F5F5;
+    --fondo-celeste: #EAF6FE;
+    --fondo-amarillo: #FFEEBB;
+    --fondo-rojo: #C00053;
+    --fondo-turqueza: #007A74;
+    --fondo-morado: #6A478D;
+
+    --link-azul: #0876A6;
+    --link-morado: #6A478D;
+}
+
+/* Formularios */
+form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: "Cabin", sans-serif;
+}
+
+/* Eiquetas */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: .875rem;
+    color: var(--base-gris);
+}
+
+/* Campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 0 .75rem;
+    font-size: .875rem;
+    height: 2.5rem;
+    border: 2px solid var(--base-azul);
+    border-radius: .5rem;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+select:focus,
+textarea:focus {
+    outline: 4px solid var(--base-azul);
+}
+
+/* Casilla de verificación */
+input[type="checkbox"] {
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid var(--link-azul);
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+}
+
+/* Selecconada */
+input[type="checkbox"]:checked {
+    background-color: var(--link-azul);
+    border-color: var(--link-azul);
+}
+
+input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(45deg);
+}

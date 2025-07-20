@@ -1,0 +1,63 @@
+.header-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--base-azul);
+    height: 56px;
+}
+
+.header-top nav {
+    display: flex;
+    gap: 2rem; /* Espacio entre los enlaces */
+}
+
+.header-top a {
+    color: var(--base-blanco);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-family: 'Cabin', sans-serif;
+    font-size: 0.875rem; /* 14px */
+}
+
+.header-top a:hover,
+.header-top a:focus {
+    color: var(--acento-dorado);
+    text-decoration: underline;
+}
+
+.header-menu {
+    display: flex;
+    flex-direction: column; /* Para que el logo y el menú estén uno debajo del otro */
+    align-items: center;
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.15); /* Sombra para el menú */
+}
+
+.logo-top img {
+    height: 52px; /* Ajusta el tamaño del logo */
+    margin: 1.5rem 0; /* Margen Horizontal y Vertical */
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+    display: inline-block;
+    padding: 16px 16px;
+    font-size: 0.875rem; /* 14px */
+    font-family: 'Cabin', sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--base-azul);
+    transition: background-color 0.2s, color 0.2s;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: var(--acento-dorado);
+    text-decoration: none;
+    color: var(--base-azul);
+    transition: background-color 0.2s, color 0.2s;
+}
