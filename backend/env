@@ -1,2 +1,0 @@
-MONGODB_URI=mongodb+srv://jzunigaz:lospatos@clustercenfo.njqjiea.mongodb.net/finaldb?retryWrites=true&w=majority&appName=ClusterCenfo
-PORT=3000
