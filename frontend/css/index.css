@@ -72,9 +72,13 @@
 }
 
 /* Opciones para el cuerpo y elementos de texto */
+html,
 body {
     font-family: 'Cabin', sans-serif;
     font-size: 16px;
+    background-color: var(--base-fondo);
+    margin: 0;
+    padding: 0;
 }
 
 p {
@@ -140,11 +144,11 @@ body a:focus {
 }
 
 /* Colores principales */
-/* Para temas usar [theme='default'] */
 :root {
     --base-azul: #182951;
     --base-blanco: #FFFFFF;
     --base-gris: #4F4F4F;
+    --base-fondo: #F5F5F5;
     --acento-dorado: #CFAC65;
     --redes-amarillo: #FFCB30;
 
@@ -157,6 +161,63 @@ body a:focus {
 
     --link-azul: #0876A6;
     --link-morado: #6A478D;
+}
+
+:root[data-theme="light"] {
+    --base-azul: #182951;
+    --base-blanco: #FFFFFF;
+    --base-gris: #4F4F4F;
+    --base-fondo: #F5F5F5;
+    --acento-dorado: #CFAC65;
+    --redes-amarillo: #FFCB30;
+
+    --fondo-gris: #F5F5F5;
+    --fondo-celeste: #EAF6FE;
+    --fondo-amarillo: #FFEEBB;
+    --fondo-rojo: #C00053;
+    --fondo-turqueza: #007A74;
+    --fondo-morado: #6A478D;
+
+    --link-azul: #0876A6;
+    --link-morado: #6A478D;
+}
+
+:root[data-theme="dark"] {
+    --base-azul: #EAF6FE;
+    --base-blanco: #121212;
+    --base-gris: #CCCCCC;
+    --base-fondo: #1E1E1E;
+    --acento-dorado: #E6C87A;
+    --redes-amarillo: #FFD95E;
+
+    --fondo-gris: #2A2A2A;
+    --fondo-celeste: #243C4F;
+    --fondo-amarillo: #5A4B2E;
+    --fondo-rojo: #8B1E47;
+    --fondo-turqueza: #005E59;
+    --fondo-morado: #4B2A63;
+
+    --link-azul: #4BB9E3;
+    --link-morado: #A57BD7;
+}
+
+:root[data-theme="contrast"] {
+    --base-azul: #000000;
+    --base-blanco: #FFFFFF;
+    --base-gris: #000000;
+    --base-fondo: #FFFFFF;
+    --acento-dorado: #FFD700;
+    --redes-amarillo: #FFFF00;
+
+    --fondo-gris: #FFFFFF;
+    --fondo-celeste: #FFFFFF;
+    --fondo-amarillo: #FFFF00;
+    --fondo-rojo: #FF0000;
+    --fondo-turqueza: #00FFFF;
+    --fondo-morado: #FF00FF;
+
+    --link-azul: #0000FF;
+    --link-morado: #800080;
 }
 
 /* Formularios */
