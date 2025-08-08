@@ -33,7 +33,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 //app.use("/categorias", categoriaRoute);
 
 //Mensaje de conexione exitosa
-app.get('/', (req,res)=> {
+aplicacion.get('/', (req,res)=> {
     res.send('Servidor en funcionamiento');
 });
 
