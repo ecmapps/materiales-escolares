@@ -11,7 +11,7 @@ const aplicacion = express();
 //Importacion de las rutas (*ASOCIADO)
 // const usuarioRoute = require("./routes/usuario.route");
 // const productoRoute = require("./routes/producto.route");
-//const categoriaRoute = require("./routes/categoria.route");
+const categoriaRoute = require("./routes/categoria.route");
 
 // Middle
 aplicacion.use(express.json());
@@ -30,7 +30,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 //Rutas (*ASOCIADO)
 // app.use("/usuarios", usuarioRoute);
 // app.use("/productos", productoRoute);
-//app.use("/categorias", categoriaRoute);
+aplicacion.use("/categorias", categoriaRoute);
 
 //Mensaje de conexione exitosa
 aplicacion.get('/', (req,res)=> {
