@@ -61,3 +61,6 @@
     color: var(--base-azul);
     transition: background-color 0.2s, color 0.2s;
 }
+select{
+    max-width: 135px;
+}
