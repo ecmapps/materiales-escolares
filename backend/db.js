@@ -1,49 +1,43 @@
-require('dotenv').config();
-
+//require('dotenv').config({path:'env'});
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); //Permite interpretar los datos que vienen en la peticion en formto json
+//const rutasUsuarios = require(''); //folder de rutas
+require('dotenv').config();
+
 const aplicacion = express();
-const nivelesRoutes = require('./routes/nivelEducativo.route');
-// Importación de rutas
+
+//Importacion de las rutas (*ASOCIADO)
 // const usuarioRoute = require("./routes/usuario.route");
 // const productoRoute = require("./routes/producto.route");
-const nivelEducativoRoute = require("./routes/nivelEducativo.route");
+const categoriaRoute = require("./routes/categoria.route");
 
-const app = express(); // Usamos 'app' para mayor consistencia
+// Middle
+aplicacion.use(express.json());
+aplicacion.use(bodyParser.urlencoded({extended:true}));
+aplicacion.use(bodyParser.json());//Habilita el analisis de JSON en las peticiones 
+aplicacion.use(cors());
 
-// Middleware
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-// Conexión a MongoDB
+//Conexion al Servidor
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('✅ MongoDB Atlas conectado'))
-.catch(error => console.log('❌ Error al conectar con MongoDB: ', error));
+.then(()=> console.log('MongoDB Atlas conectado'))
+.catch(error => console.log('Ocurrio un error al conectarse con MongoDB: ', error));
 
-// Rutas
+//Rutas (*ASOCIADO)
 // app.use("/usuarios", usuarioRoute);
 // app.use("/productos", productoRoute);
-app.use('/api/niveles', nivelesRoutes);
+aplicacion.use("/categorias", categoriaRoute);
 
-// Ruta de prueba
-app.get('/', (req, res) => {
-    res.send('Servidor en funcionamiento 🚀');
+//Mensaje de conexione exitosa
+aplicacion.get('/', (req,res)=> {
+    res.send('Servidor en funcionamiento');
 });
 
-// Puerto
 const PUERTO = process.env.PORT || 3000;
-app.listen(PUERTO, () => {
+aplicacion.listen(PUERTO, () => {
   console.log(`Servidor ejecutándose en el puerto ${PUERTO}`);
 });
-
-// proyecto real
