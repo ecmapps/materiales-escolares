@@ -1,3 +1,6 @@
+// Agrega esto cerca de otras rutas
+const listaRoutes = require('./routes/lista.routes');
+app.use('/api/listas', listaRoutes);
 // Cargar el header
 fetch('/frontend/components/header.html')
     .then(response => {
