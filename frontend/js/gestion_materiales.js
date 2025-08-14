@@ -1,6 +1,6 @@
 const inputProducto = document.querySelector("#txtProducto");
 const inputDescripcion = document.querySelector("#txtDescripcion");
-const inputUnidadMedida = document.querySelector("#txtUnidadMedida"); // Fixed selector
+const inputUnidadMedida = document.querySelector("#txtUnidadMedida"); 
 const btnGuardar = document.querySelector("#btnGuardar");
 const inputsRequeridos = document.querySelectorAll("input[required]");
 
@@ -31,7 +31,7 @@ function registrarMateriales() {
     fetch("http://localhost:3000/materiales", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json" // Fixed case
+            "Content-Type": "application/json" 
         },
         body: JSON.stringify(datosMateriales)
     })
@@ -43,16 +43,15 @@ function registrarMateriales() {
     })
     .then(data => {
         console.log("Artículo registrado", data);
-        // Optional: Reset form or show success message
-        // document.querySelector("form").reset();
+        
     })
     .catch(error => {
         console.error("Error:", error);
-        // Optional: Show error message to user
+       
     });
 }
 
 btnGuardar.addEventListener("click", (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault(); 
     validar();
 });
