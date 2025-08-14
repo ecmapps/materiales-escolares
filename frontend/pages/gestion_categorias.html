@@ -18,15 +18,64 @@
     <main class="container my-5">
 
         <!-- Contenido a modificar -->
-        
+
+        <h1 class="mb-4">Categorías de Materiales</h1>
+        <hr>
+
+        <h2>Agregar una categoría</h2>
+        <p>Sección para agregar una nueva categoría de materiales al sistema</p>
+
+        <form>
+            <div class="mb-3"> <!-- Margen inferiror -->
+                <label for="txtCategoria">Nombre de la categoría</label>
+                <input type="text" class="form-mep" id="txtCategoria" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="txtDescripcion">Descripción</label>
+                <input type="text" class="form-mep" id="txtDescripcion" required>
+            </div>
+
+            <button type="submit" id="btnAgregar" class="btn-mep azul">Agregar</button>
+        </form>
+
+        <hr>
+
+        <h2>Lista de Categorías</h2>
+        <p>Sección para visualizar, eliminar o desactivar categorías de materiales</p>
+
+        <table id="tblCategorias" class="table table-striped table-bordered table-hover table-sm w-75">
+            <!-- Thead: Encabezado de la tabla -->
+            <thead>
+                <tr>
+                    <!-- th: Celda de encabezado-->
+                    <th>🗹</th>
+                    <th>Nombre de Categoría</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <!-- Tbody: Cuerpo de la tabla (datos) -->
+            <tbody>
+            </tbody>
+        </table>
+
+        <form>
+            <button type="button" id="btnEliminar" class="btn-mep azul">Eliminar</button>
+            <button type="button" id="btnModificar" class="btn-mep azul">Modificar</button>
+            <button type="reset" id="btnCancelar" class="btn-mep azul">Cancelar</button>
+        </form>
+
         <!-- Contenido a modificar -->
 
     </main>
 
     <div id="footer"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
     <script src="../js/index.js"></script>
+    <script src="../js/gestion_categorias.js"></script>
 
 </body>
 
