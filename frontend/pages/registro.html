@@ -17,7 +17,7 @@
 
     <main class="container my-5">
         <h2>Registro de Usuarios</h2>
-        <form id="registrationForm" action="/register" method="POST">
+        <form id="registrationForm" method="POST">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
             
@@ -35,8 +35,54 @@
             
             <button type="submit" class="btn-mep">Registrar Usuario</button>
         </form>
-
+        <p id="registrationMessage"></p>
     </main>
+    <script>
+        // Configuración de la URL del backend
+        const backendUrl = 'http://localhost:3000/usuarios';
+
+        // Función para manejar el registro
+        async function registrarUsuario(event) {
+            event.preventDefault(); // Evitar el envío por defecto del formulario
+
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rol = document.getElementById('rol').value;
+            const mensaje = document.getElementById('registrationMessage');
+
+            try {
+                const respuesta = await fetch(`${backendUrl}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nombre, email, password, rol }),
+                });
+
+                const datos = await respuesta.json();
+
+                if (respuesta.ok) {
+                    mensaje.style.color = 'green';
+                    mensaje.textContent = 'Usuario registrado con éxito';
+                    // Opcional: Redirigir a la página de gestión de usuarios
+                    setTimeout(() => {
+                        window.location.href = '/gestion-usuarios.html';
+                    }, 2000); // Redirige después de 2 segundos
+                } else {
+                    mensaje.style.color = 'red';
+                    mensaje.textContent = datos.message;
+                }
+            } catch (err) {
+                mensaje.style.color = 'red';
+                mensaje.textContent = 'Error al conectar con el servidor';
+                console.error('Error:', err);
+            }
+        }
+
+        // Asignar la función al evento de envío del formulario
+        document.getElementById('registrationForm').addEventListener('submit', registrarUsuario);
+    </script>
 
     <div id="footer"></div>
 

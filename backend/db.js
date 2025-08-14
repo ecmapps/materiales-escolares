@@ -9,9 +9,9 @@ require('dotenv').config();
 const aplicacion = express();
 
 //Importacion de las rutas (*ASOCIADO)
-// const usuarioRoute = require("./routes/usuarios.route");
-// const productoRoute = require("./routes/producto.route");
-// const categoriaRoute = require("./routes/categoria.route");
+ const usuarioRoute = require("./routes/usuarios.route");
+ const categoriaRoute = require("./routes/categoria.route");
+ const listasRoute = require("./routes/lista.routes")
 
 // Middle
 aplicacion.use(express.json());
@@ -28,9 +28,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch(error => console.log('Ocurrio un error al conectarse con MongoDB: ', error));
 
 //Rutas (*ASOCIADO)
-// aplicacion.use("/usuarios", usuarioRoute);
-// aplicacion.use("/productos", productoRoute);
-// aplicacion.use("/categorias", categoriaRoute);
+ aplicacion.use("/usuarios", usuarioRoute);
+ aplicacion.use("/categorias", categoriaRoute);
+ aplicacion.use("/api/listas", listasRoute);
 
 //Mensaje de conexione exitosa
 aplicacion.get('/', (req,res)=> {

@@ -28,10 +28,61 @@
                 
                 <button type="submit" class="btn-mep">Iniciar Sesión</button>
             </form>
+            <p id="loginMessage"></p>
             <p>¿No tienes una cuenta? Contacta al administrador.</p>
         </div>
 
     </main>
+    <script>
+        // Configuración de la URL del backend
+        const backendUrl = 'http://localhost:3000/usuarios';
+
+        // Función para manejar el inicio de sesión
+        async function iniciarSesion(event) {
+            event.preventDefault(); // Evitar el envío por defecto del formulario
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const mensaje = document.getElementById('loginMessage');
+
+            try {
+                const respuesta = await fetch(`${backendUrl}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const datos = await respuesta.json();
+
+                if (respuesta.ok) {
+                    mensaje.style.color = 'green';
+                    mensaje.textContent = datos.message;
+                    // Guardar datos del usuario en localStorage (o sessionStorage) para mantener la sesión
+                    localStorage.setItem('usuario', JSON.stringify(datos.usuario));
+                    // Redirigir según el rol del usuario
+                    if (datos.usuario.rol === 'admin') {
+                        window.location.href = '/gestion-usuarios.html';
+                    } else if (datos.usuario.rol === 'docente') {
+                        window.location.href = '/gestion-listas.html'; // Página para docentes
+                    } else if (datos.usuario.rol === 'padre') {
+                        window.location.href = '/ver-listas.html'; // Página para padres
+                    }
+                } else {
+                    mensaje.style.color = 'red';
+                    mensaje.textContent = datos.message;
+                }
+            } catch (err) {
+                mensaje.style.color = 'red';
+                mensaje.textContent = 'Error al conectar con el servidor';
+                console.error('Error:', err);
+            }
+        }
+
+        // Asignar la función al evento de envío del formulario
+        document.getElementById('loginForm').addEventListener('submit', iniciarSesion);
+    </script>
 
     <div id="footer"></div>
 
