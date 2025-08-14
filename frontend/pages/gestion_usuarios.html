@@ -12,16 +12,75 @@
 </head>
 
 <body>
-
     <div id="header"></div>
+        <main class="container my-5">
+            <h2>Gestión de Usuarios</h2>
+            <section class="user-list">
+                <h3>Lista de Usuarios</h3>
+                <table id="usersTable" class="table table-bordered table-striped table-hover table-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Activo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Usuarios serán incluidos con JS -->
+                    </tbody>
+                </table>
+            </section>
+            <section class="user-actions">
+                <h3>Acciones</h3>
+                <button onclick="mostrarFormularioRegistro()" class="btn-mep">Registrar Nuevo Usuario</button>
+                <!-- Formulario de registro puede mostrarse en un modal o sección separada -->
+                <div id="registrationSection" style="display: none;">
+                    <!-- Incluir el body del formulario de registro aquí si es necesario, o enlazar a la página de registro -->
+                </div>
+            </section>
+        </main>
+        <script>
+            // JavaScript para cargar y mostrar usuarios
+            async function cargarUsuarios() {
+                const respuesta = await fetch('/users');
+                const usuarios = await respuesta.json();
+                const cuerpoTabla = document.querySelector('#usersTable tbody');
+                cuerpoTabla.innerHTML = '';
+                usuarios.forEach(usuario => {
+                    const fila = document.createElement('tr');
+                    fila.innerHTML = `
+                        <td>${usuario.nombre}</td>
+                        <td>${usuario.email}</td>
+                        <td>${usuario.rol}</td>
+                        <td>${usuario.activo ? 'Sí' : 'No'}</td>
+                        <td>
+                            <button onclick="editarUsuario('${usuario._id}')">Editar</button>
+                            <button onclick="desactivarUsuario('${usuario._id}')">Desactivar</button>
+                        </td>
+                    `;
+                    cuerpoTabla.appendChild(fila);
+                });
+            }
 
-    <main class="container my-5">
+            function mostrarFormularioRegistro() {
+                // Redirigir a la página de registro o mostrar formulario
+                window.location.href = '/frontend/pages/registro.html';
+            }
 
-        <!-- Contenido a modificar -->
-        
-        <!-- Contenido a modificar -->
+            async function editarUsuario(id) {
+                // Obtener datos del usuario y mostrar formulario de edición (implementar según sea necesario)
+                alert('Editar usuario ' + id);
+            }
 
-    </main>
+            async function desactivarUsuario(id) {
+                await fetch(`/users/${id}/deactivate`, { method: 'PUT' });
+                cargarUsuarios();
+            }
+
+            window.onload = cargarUsuarios;
+        </script>
 
     <div id="footer"></div>
 
