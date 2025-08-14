@@ -1,6 +1,19 @@
 // Agrega esto cerca de otras rutas
+
 //const listaRoutes = require('./routes/lista.routes');
 //app.use('/api/listas', listaRoutes);
+
+//Accesibilidad
+const tema = localStorage.getItem('tema')==null?'light':localStorage.getItem('tema');//Default es light
+console.log("Tema: "+tema);
+const headTag = document.querySelector('html');
+console.log(document.querySelector('html').attributes);
+if(headTag.attributes.length<2){
+    console.log("No data-theme attribute");
+    headTag.setAttribute('data-theme',tema);
+    
+}
+//Cambiar el tema ejecutando el codigo de header.js
 // Cargar el header
 fetch('/frontend/components/header.html')
     .then(response => {
@@ -12,7 +25,6 @@ fetch('/frontend/components/header.html')
         }
     })
     .then(data => document.getElementById('header').innerHTML = data);
-
 // Cargar el footer
 fetch('/frontend/components/footer.html')
     .then(response => response.text())
