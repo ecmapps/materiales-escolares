@@ -31,6 +31,7 @@
             <select id="rol" name="rol" style="margin-top: 0.5rem;" required>
                 <option value="docente">Docente</option>
                 <option value="padre">Padre de Familia</option>
+                <option value="admin">Administrador</option>
             </select>
             
             <button type="submit" class="btn-mep">Registrar Usuario</button>
@@ -67,7 +68,7 @@
                     mensaje.textContent = 'Usuario registrado con éxito';
                     // Opcional: Redirigir a la página de gestión de usuarios
                     setTimeout(() => {
-                        window.location.href = '/gestion-usuarios.html';
+                        window.location.href = '/gestion_usuarios.html';
                     }, 2000); // Redirige después de 2 segundos
                 } else {
                     mensaje.style.color = 'red';
