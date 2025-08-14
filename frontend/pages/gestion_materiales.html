@@ -12,22 +12,60 @@
 </head>
 
 <body>
-
     <div id="header"></div>
 
     <main class="container my-5">
+        <h1 class="mb-4">Registrar materiales escolares</h1>
 
-        <!-- Contenido a modificar -->
-        
-        <!-- Contenido a modificar -->
+        <p>Esta sección está dedicada exclusivamente a los materiales escolares, que son herramientas fundamentales para el desarrollo educativo de estudiantes en todos los niveles (preescolar, escuela y colegio).</p>
 
+        <form>
+            
+            <div>
+                <label for="txtProducto">Nombre del producto:</label>
+                <input type="text" id="txtProducto" required>
+            </div>
+
+            <div>
+                <label for="txtDescripcion">Descripción:</label>
+                <input type="text" id="txtDescripcion" required>
+            </div>
+            
+           <div>
+    <label for="txtUnidadMedida">Unidad de Medida:</label>
+    <input type="text" id="txtUnidadMedida" required>
+</div>
+
+<div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem;">
+    <div style="flex: 0 0 auto;">
+        <button type="submit" class="btn-mep azul" id="btnGuardar" style="width: 120px; padding: 8px;">Guardar</button>
+    </div>
+    <div style="flex: 0 0 auto;">
+        <a href="javascript:history.back()" class="btn-mep azul d-flex align-items-center justify-content-center" 
+           id="btn-atras" style="width: 120px; height: 38px; text-decoration: none;">
+            Atrás
+        </a>
+    </div>
+</div>
+        </form>
+
+        <table id="tblMateriales" class="table">
+            <thead>
+                <tr>
+                    <th class="col-sm-2">Nombre del producto</th>
+                    <th class="col-sm-2">Descripción</th>
+                    <th class="col-sm-2">Unidad de Medida</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
 
     <div id="footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     <script src="../js/index.js"></script>
-
+    <script src="../js/materiales-registrar.js"></script>
 </body>
 
 </html>
