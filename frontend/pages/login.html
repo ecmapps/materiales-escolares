@@ -65,9 +65,9 @@
                     if (datos.usuario.rol === 'admin') {
                         window.location.href = '/frontend/pages/panel_admin.html';
                     } else if (datos.usuario.rol === 'docente') {
-                        window.location.href = '/frontend/pages/gestion_listas.html'; // Página para docentes
+                        window.location.href = '/frontend/pages/panel_docente.html'; // Página para docentes
                     } else if (datos.usuario.rol === 'padre') {
-                        window.location.href = '/frontend/pages/visualizacion_listas.html'; // Página para padres
+                        window.location.href = '/frontend/pages/panel_padre.html'; // Página para padres
                     }
                 } else {
                     mensaje.style.color = 'red';

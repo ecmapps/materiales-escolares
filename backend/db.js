@@ -12,12 +12,17 @@ const aplicacion = express();
  const usuarioRoute = require("./routes/usuarios.route");
  const categoriaRoute = require("./routes/categoria.route");
  const listasRoute = require("./routes/lista.routes")
+ const nivelesRoutes = require('./routes/nivelEducativo.route');
 
 // Middle
 aplicacion.use(express.json());
 aplicacion.use(bodyParser.urlencoded({extended:true}));
 aplicacion.use(bodyParser.json());//Habilita el analisis de JSON en las peticiones 
 aplicacion.use(cors());
+// aplicacion.use(cors({
+//   origin: '*',
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+// }));
 
 //Conexion al Servidor
 mongoose.connect(process.env.MONGODB_URI, {
@@ -31,6 +36,7 @@ mongoose.connect(process.env.MONGODB_URI, {
  aplicacion.use("/usuarios", usuarioRoute);
  aplicacion.use("/categorias", categoriaRoute);
  aplicacion.use("/api/listas", listasRoute);
+ aplicacion.use('/api/niveles', nivelesRoutes);
 
 //Mensaje de conexione exitosa
 aplicacion.get('/', (req,res)=> {

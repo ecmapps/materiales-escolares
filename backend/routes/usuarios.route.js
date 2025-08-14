@@ -46,7 +46,8 @@ router.get('/users', async (req, res) => {
 // Desactivar usuario
 router.put('/users/:id/deactivate', async (req, res) => {
     try {
-        const usuario = await Usuario.findByIdAndUpdate(req.params.id, { activo: false }, { new: true });
+        const {id} = req.params;
+        const usuario = await Usuario.findByIdAndUpdate(id, { activo: false }, { new: true });
         if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
@@ -68,5 +69,16 @@ router.put('/users/:id', async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 });
-
+// Obtener un usuario por ID (para edición)
+router.get('/users/:id', async (req, res) => {
+    try {
+        const usuario = await Usuario.findById(req.params.id);
+        if (!usuario) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+        res.json(usuario);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 module.exports = router;
