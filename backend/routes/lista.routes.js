@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Lista = require('../models/lista');
-const auth = require('../middleware/auth'); // Si usas autenticación
 
 // Crear lista (POST)
-router.post('/', auth, async (req, res) => {
+router.post('/',async (req, res) => {
   try {
     const lista = new Lista({
       ...req.body,
