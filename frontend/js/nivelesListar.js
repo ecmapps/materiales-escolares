@@ -13,8 +13,8 @@ async function cargarNiveles() {
         <td>${nivel.nombre}</td>
         <td>${nivel.descripcion}</td>
         <td>
-          <button class="btn btn-warning btn-sm" onclick="editarNivel('${nivel._id}', '${nivel.nombre}', '${nivel.descripcion}')">✏️ Editar</button>
-          <button class="btn btn-danger btn-sm" onclick="eliminarNivel('${nivel._id}')">🗑️ Eliminar</button>
+          <button class="btn-mep azul" onclick="editarNivel('${nivel._id}', '${nivel.nombre}', '${nivel.descripcion}')">✏️ Editar</button>
+          <button class="btn-mep azul" style="margin-top: 0.25rem;" onclick="eliminarNivel('${nivel._id}')">🗑️ Eliminar</button>
         </td>
       
       `;
