@@ -36,20 +36,23 @@
     <input type="text" id="txtUnidadMedida" required>
 </div>
 
-<div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem;">
+<div style="display: flex; gap: 2rem; margin-top: 1rem;">
     <div style="flex: 0 0 auto;">
-        <button type="submit" class="btn-mep azul" id="btnGuardar" style="width: 120px; padding: 8px;">Guardar</button>
+        <button type="submit" class="btn-mep azul" id="btnGuardar" style="width: 120px; height: 50px; padding: 8px;">Guardar</button>
     </div>
     <div style="flex: 0 0 auto;">
         <a href="javascript:history.back()" class="btn-mep azul d-flex align-items-center justify-content-center" 
-           id="btn-atras" style="width: 120px; height: 38px; text-decoration: none;">
+           id="btn-atras" style="width: 120px; height: 50px; text-decoration: none;">
             Atrás
         </a>
     </div>
 </div>
         </form>
 
-        <table id="tblMateriales" class="table">
+        <h2>Lista de Materiales Escolares</h2>
+        <p>Sección para visualizar de la lista de los materiales escolares</p>
+
+        <table id="tblMateriales" class="table table-bordered table-striped table-hover table-sm">
             <thead>
                 <tr>
                     <th class="col-sm-2">Nombre del producto</th>
