@@ -108,12 +108,34 @@ function renderizarTablaListas() {
     `).join("");
 }
 
-// Obtener materiales del formulario
-function obtenerMaterialesFormulario() {
-    const materiales = [];
-    // Implementar lógica para obtener materiales del formulario
-    return materiales;
-}
+    /**
+     * Obtiene los materiales seleccionados en el formulario
+     * @returns {string[]} Array con los nombres de los materiales seleccionados (ej: ["Lápiz", "Regla"])
+     */
+    function obtenerMaterialesFormulario() {
+        return Array.from(
+            document.querySelectorAll('#materialesContainer input[type="checkbox"]:checked')
+        ).map(checkbox => checkbox.value);
+    }
+
+    // --- Ejemplo de uso al enviar el formulario ---
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault(); // Evita el envío real para demostración
+        
+        const materiales = obtenerMaterialesFormulario();
+        
+        if (materiales.length === 0) {
+            alert('⚠️ Selecciona al menos un material');
+            return;
+        }
+        
+        console.log('Materiales seleccionados:', materiales);
+        // Aquí puedes agregar tu lógica de envío (AJAX, etc.)
+    });
+
+// Ejemplo de uso:
+const materiales = obtenerMaterialesFormulario();
+console.log(materiales); // ["Lápiz", "Regla", "Borrador", "Lapicero"]
 
 // Obtener listas seleccionadas
 function obtenerListasSeleccionadas() {
