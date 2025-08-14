@@ -63,11 +63,11 @@
                     localStorage.setItem('usuario', JSON.stringify(datos.usuario));
                     // Redirigir según el rol del usuario
                     if (datos.usuario.rol === 'admin') {
-                        window.location.href = '/gestion-usuarios.html';
+                        window.location.href = '/panel_admin.html';
                     } else if (datos.usuario.rol === 'docente') {
-                        window.location.href = '/gestion-listas.html'; // Página para docentes
+                        window.location.href = '/gestion_listas.html'; // Página para docentes
                     } else if (datos.usuario.rol === 'padre') {
-                        window.location.href = '/ver-listas.html'; // Página para padres
+                        window.location.href = '/visualizacion_listas.html'; // Página para padres
                     }
                 } else {
                     mensaje.style.color = 'red';
