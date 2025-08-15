@@ -13,11 +13,6 @@ const materialSchema = new mongoose.Schema({
     unidadmedida: {
         type: String,
         required: true
-    },
-    categoria: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Categoria', 
-        required: true 
     }
 }, { 
     timestamps: true 
