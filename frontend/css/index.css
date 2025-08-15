@@ -72,9 +72,13 @@
 }
 
 /* Opciones para el cuerpo y elementos de texto */
+html,
 body {
     font-family: 'Cabin', sans-serif;
     font-size: 16px;
+    background-color: var(--base-fondo);
+    margin: 0;
+    padding: 0;
 }
 
 p {
@@ -89,6 +93,27 @@ h4,
 h5,
 h6 {
     font-family: 'Poppins', sans-serif;
+}
+
+/* Foto de pagina principal */
+.mep-identidad {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 500px;
+    background: url('../images/kinder-celebrando.jpg') center/cover no-repeat;
+    background-blend-mode: overlay;
+    background-color: rgba(0,0,0,0.4);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    border-radius: 24px;
+    color: #fff;
+    text-align: center;
+    padding: 64px 96px;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 /* Opciones para hypervinculos */
@@ -140,11 +165,11 @@ body a:focus {
 }
 
 /* Colores principales */
-/* Para temas usar [theme='default'] */
 :root {
     --base-azul: #182951;
     --base-blanco: #FFFFFF;
     --base-gris: #4F4F4F;
+    --base-fondo: #F5F5F5;
     --acento-dorado: #CFAC65;
     --redes-amarillo: #FFCB30;
 
@@ -159,10 +184,67 @@ body a:focus {
     --link-morado: #6A478D;
 }
 
+:root[data-theme="light"] {
+    --base-azul: #182951;
+    --base-blanco: #FFFFFF;
+    --base-gris: #4F4F4F;
+    --base-fondo: #F5F5F5;
+    --acento-dorado: #CFAC65;
+    --redes-amarillo: #FFCB30;
+
+    --fondo-gris: #F5F5F5;
+    --fondo-celeste: #EAF6FE;
+    --fondo-amarillo: #FFEEBB;
+    --fondo-rojo: #C00053;
+    --fondo-turqueza: #007A74;
+    --fondo-morado: #6A478D;
+
+    --link-azul: #0876A6;
+    --link-morado: #6A478D;
+}
+
+:root[data-theme="dark"] {
+    --base-azul: #EAF6FE;
+    --base-blanco: #121212;
+    --base-gris: #CCCCCC;
+    --base-fondo: #1E1E1E;
+    --acento-dorado: #E6C87A;
+    --redes-amarillo: #FFD95E;
+
+    --fondo-gris: #2A2A2A;
+    --fondo-celeste: #243C4F;
+    --fondo-amarillo: #5A4B2E;
+    --fondo-rojo: #8B1E47;
+    --fondo-turqueza: #005E59;
+    --fondo-morado: #4B2A63;
+
+    --link-azul: #4BB9E3;
+    --link-morado: #A57BD7;
+}
+
+:root[data-theme="contrast"] {
+    --base-azul: #000000;
+    --base-blanco: #FFFFFF;
+    --base-gris: #000000;
+    --base-fondo: #FFFFFF;
+    --acento-dorado: #FFD700;
+    --redes-amarillo: #FFFF00;
+
+    --fondo-gris: #FFFFFF;
+    --fondo-celeste: #FFFFFF;
+    --fondo-amarillo: #FFFF00;
+    --fondo-rojo: #FF0000;
+    --fondo-turqueza: #00FFFF;
+    --fondo-morado: #FF00FF;
+
+    --link-azul: #0000FF;
+    --link-morado: #800080;
+}
+
 /* Formularios */
 form {
     max-width: 600px;
-    margin: 2rem auto;
+    margin: 2rem 0; /* Justificación del formulario */
     padding: 1rem;
     font-family: "Cabin", sans-serif;
 }
@@ -232,3 +314,194 @@ input[type="checkbox"]:checked::after {
     border-width: 0 2px 2px 0;
     transform: translate(-50%, -50%) rotate(45deg);
 }
+
+/* Seccion de diseño Responsive */
+
+/* Diseño para Tarjetas */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.75rem;
+    background-color: var(--base-blanco);
+    color: var(--base-gris);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    color: var(--base-azul);
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.card-text {
+    color: var(--base-gris);
+    font-family: 'Cabin', sans-serif;
+    line-height: 1.5;
+}
+
+/* Dispositivos móviles (hasta 576px) */
+@media (max-width: 575.98px) {
+    .card {
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .card-body {
+        padding: 1rem 0.75rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .card-text {
+        font-size: 0.875rem;
+        line-height: 1.4;
+    }
+
+    /* Una sola columna */
+    .row-cols-1 > .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    /* Reducir espacios entre tarjetas en móviles */
+    .g-4 {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: 1rem;
+    }
+}
+
+/* Dispositivos tablet (576px a 992px) */
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .card {
+        min-height: 200px;
+        padding: 0.875rem;
+    }
+    
+    .card-body {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .card-text {
+        font-size: 0.9rem;
+        flex-grow: 1;
+    }
+
+    /* Dos columnas para tablets */
+    .row-cols-md-2 > .col,
+    .row-cols-md-3 > .col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    /* Espacios moderados para tablets */
+    .g-4 {
+        --bs-gutter-x: 1.25rem;
+        --bs-gutter-y: 1.25rem;
+    }
+}
+
+/* Dispositivos de escritorio (992px y más) */
+@media (min-width: 992px) {
+    .card {
+        min-height: 250px;
+        padding: 1rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+    
+    .card-title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .card-text {
+        font-size: 1rem;
+        flex-grow: 1;
+        margin-bottom: 1rem;
+    }
+    
+    /* Múltiples columnas para escritorio */
+    .row-cols-lg-3 > .col {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    .row-cols-lg-4 > .col {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    
+    .row-cols-lg-5 > .col {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+    
+    /* Espaciado por defecto para escritorio */
+    .g-4 {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 1.5rem;
+    }
+}
+
+/* Botones para las Cartas */
+ .card .btn {
+    margin-top: auto;
+    border-radius: 1.5rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+}
+
+.card .btn-primary {
+    background-color: var(--base-azul);
+    border-color: var(--base-azul);
+    color: var(--base-blanco);
+}
+
+.card .btn-primary:hover {
+    background-color: transparent;
+    color: var(--base-azul);
+    text-decoration: none;
+}
+
+/* Ajustes para el tema oscuro */
+:root[data-theme="dark"] .card {
+    background-color: var(--fondo-gris);
+    border-color: rgba(255, 255, 255, 0.125);
+}
+
+:root[data-theme="dark"] .card:hover {
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+}
+
+/* Ajustes para el tema de alto contraste */
+:root[data-theme="contrast"] .card {
+    background-color: var(--base-blanco);
+    border: 3px solid var(--base-azul);
+}
+
+:root[data-theme="contrast"] .card:hover {
+    border-color: var(--acento-dorado);
+    box-shadow: 0 0 0 3px var(--acento-dorado);
+}
+
