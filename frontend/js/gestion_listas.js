@@ -1,231 +1,291 @@
-// Elementos del DOM
-const inputNombreLista = document.getElementById("nombreLista");
-const selectNivelEducativo = document.getElementById("nivelEducativo");
-const btnGuardarLista = document.getElementById("btnGuardarLista");
-const btnAgregarMaterial = document.getElementById("btnAgregarMaterial");
-const btnCancelarLista = document.getElementById("btnCancelar");
-const tablaListas = document.getElementById("tblListas")?.querySelector("tbody");
-
-// Variables de estado
-let modoEdicion = false;
-let listaIdEnEdicion = null;
-let listas = [];
-
-// ==================== FUNCIONES PRINCIPALES ====================
-
-// Validar campos requeridos
-function validarCamposLista() {
-    if (!inputNombreLista.value || !selectNivelEducativo.value) {
-        alert("Por favor complete todos los campos requeridos");
-        return false;
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar que todos los elementos del DOM existan antes de inicializar
+    if (!document.getElementById('formLista') || !document.getElementById('tblListas')) {
+        console.error('Elementos críticos del DOM no encontrados');
+        return;
     }
-    return true;
-}
 
-// Registrar nueva lista
-async function registrarLista() {
-    if (!validarCamposLista()) return;
+    initEvents();
+    cargarListas();
+});
 
-    const materiales = obtenerMaterialesFormulario();
-    const data = {
-        nombre: inputNombreLista.value,
-        nivelEducativo: selectNivelEducativo.value,
-        materiales: materiales
-    };
-
+function initEvents() {
     try {
-        const response = await fetch("http://localhost:3000/api/listas", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
+        // Eventos para checkboxes de materiales
+        const checkboxes = document.querySelectorAll('#materialesContainer input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const cantidadInput = this.closest('.row')?.querySelector('.cantidad-material');
+                if (cantidadInput) {
+                    cantidadInput.disabled = !this.checked;
+                    if (!this.checked) cantidadInput.value = 1;
+                }
+            });
         });
 
-        if (!response.ok) throw new Error("Error al registrar");
-        
-        mostrarMensaje("Lista registrada exitosamente", "success");
-        limpiarFormularioLista();
-        obtenerListas();
-    } catch (error) {
-        mostrarMensaje("Error al registrar la lista", "error");
-        console.error(error);
-    }
-}
-
-// Actualizar lista existente
-async function actualizarLista() {
-    if (!validarCamposLista()) return;
-
-    const materiales = obtenerMaterialesFormulario();
-    const data = {
-        nombre: inputNombreLista.value,
-        nivelEducativo: selectNivelEducativo.value,
-        materiales: materiales
-    };
-
-    try {
-        const response = await fetch(`http://localhost:3000/api/listas/${listaIdEnEdicion}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
+        // Evento para guardar lista - versión más robusta
+        const form = document.getElementById('formLista');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            try {
+                await guardarLista();
+            } catch (error) {
+                console.error('Error en submit:', error);
+                mostrarAlerta('Error al procesar el formulario', 'danger');
+            }
         });
 
-        if (!response.ok) throw new Error("Error al actualizar");
-        
-        mostrarMensaje("Lista actualizada exitosamente", "success");
-        cancelarEdicionLista();
-        obtenerListas();
     } catch (error) {
-        mostrarMensaje("Error al actualizar la lista", "error");
-        console.error(error);
+        console.error('Error inicializando eventos:', error);
     }
 }
 
-// Obtener todas las listas
-async function obtenerListas() {
+function obtenerMaterialesSeleccionados() {
+    const materiales = [];
     try {
-        const response = await fetch("http://localhost:3000/api/listas");
-        if (!response.ok) throw new Error("Error al obtener listas");
-        
-        listas = await response.json();
-        renderizarTablaListas();
+        document.querySelectorAll('#materialesContainer input[type="checkbox"]:checked').forEach(checkbox => {
+            const cantidadInput = checkbox.closest('.row')?.querySelector('.cantidad-material');
+            const cantidad = cantidadInput ? parseInt(cantidadInput.value) || 1 : 1;
+            
+            materiales.push({
+                nombre: checkbox.value,
+                cantidad: cantidad
+            });
+        });
     } catch (error) {
-        mostrarMensaje("Error al cargar las listas", "error");
-        console.error(error);
+        console.error('Error obteniendo materiales:', error);
+    }
+    return materiales;
+}
+
+async function cargarListas() {
+    const tbody = document.querySelector('#tblListas tbody');
+    if (!tbody) return;
+
+    try {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Cargando listas...</p>
+                </td>
+            </tr>
+        `;
+
+        const response = await fetch('/api/listas');
+        
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${await response.text()}`);
+        }
+
+        const listas = await response.json();
+
+        if (!Array.isArray(listas)) {
+            throw new Error('Formato de datos inválido');
+        }
+
+        renderizarListas(listas);
+    } catch (error) {
+        console.error('Error al cargar listas:', error);
+        mostrarAlerta('Error al cargar listas: ' + error.message, 'danger');
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center text-danger py-4">
+                    Error al cargar las listas
+                </td>
+            </tr>
+        `;
     }
 }
 
-// Renderizar tabla de listas
-function renderizarTablaListas() {
-    if (!tablaListas) return;
+function renderizarListas(listas) {
+    const tbody = document.querySelector('#tblListas tbody');
+    if (!tbody) return;
 
-    tablaListas.innerHTML = listas.map(lista => `
+    if (listas.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center py-4 text-muted">
+                    No hay listas disponibles
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = listas.map(lista => `
         <tr>
-            <td><input type="checkbox" data-id="${lista._id}"></td>
-            <td>${lista.nombre}</td>
-            <td>${lista.nivelEducativo?.nombre || 'No especificado'}</td>
-            <td>${lista.materiales.length} materiales</td>
+            <td>${escapeHTML(lista.nombre) || 'Sin nombre'}</td>
+            <td>${escapeHTML(lista.nivelEducativo) || 'No especificado'}</td>
+            <td>${lista.materiales?.map(m => `${escapeHTML(m.nombre)} (${m.cantidad})`).join(', ') || 'Sin materiales'}</td>
+            <td>
+                <button class="btn btn-sm btn-danger btn-eliminar" data-id="${lista._id}">
+                    <i class="bi bi-trash"></i> Eliminar
+                </button>
+            </td>
         </tr>
-    `).join("");
+    `).join('');
+
+    // Agregar eventos a botones eliminar
+    document.querySelectorAll('.btn-eliminar').forEach(btn => {
+        btn.addEventListener('click', eliminarLista);
+    });
 }
 
-    /**
-     * Obtiene los materiales seleccionados en el formulario
-     * @returns {string[]} Array con los nombres de los materiales seleccionados (ej: ["Lápiz", "Regla"])
-     */
-    function obtenerMaterialesFormulario() {
-        return Array.from(
-            document.querySelectorAll('#materialesContainer input[type="checkbox"]:checked')
-        ).map(checkbox => checkbox.value);
+async function guardarLista() {
+    const nombreInput = document.getElementById('nombreLista');
+    const nivelEducativoSelect = document.getElementById('nivelEducativo');
+    
+    if (!nombreInput || !nivelEducativoSelect) {
+        mostrarAlerta('Error en el formulario', 'danger');
+        return;
     }
 
-    // --- Ejemplo de uso al enviar el formulario ---
-    document.querySelector('form').addEventListener('submit', function(e) {
-        e.preventDefault(); // Evita el envío real para demostración
-        
-        const materiales = obtenerMaterialesFormulario();
-        
-        if (materiales.length === 0) {
-            alert('⚠️ Selecciona al menos un material');
+    try {
+        const nombre = nombreInput.value.trim();
+        const nivelEducativo = nivelEducativoSelect.value;
+        const materiales = obtenerMaterialesSeleccionados();
+
+        // Validaciones mejoradas
+        if (!nombre) {
+            mostrarAlerta('El nombre de la lista es obligatorio', 'warning');
+            nombreInput.focus();
             return;
         }
+
+        if (!nivelEducativo) {
+            mostrarAlerta('Seleccione un nivel educativo', 'warning');
+            nivelEducativoSelect.focus();
+            return;
+        }
+
+        if (materiales.length === 0) {
+            mostrarAlerta('Seleccione al menos un material', 'warning');
+            return;
+        }
+
+        // Mostrar carga durante el envío
+        const submitBtn = document.getElementById('btnGuardarLista');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Guardando...
+        `;
+
+        const response = await fetch('/api/listas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nombre,
+                nivelEducativo,
+                materiales
+            })
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || 'Error al guardar la lista');
+        }
+
+        const result = await response.json();
+        console.log('Lista guardada:', result);
+
+        // Cerrar modal y actualizar
+        const modal = bootstrap.Modal.getInstance(document.getElementById('listaModal'));
+        if (modal) modal.hide();
         
-        console.log('Materiales seleccionados:', materiales);
-        // Aquí puedes agregar tu lógica de envío (AJAX, etc.)
-    });
-
-// Ejemplo de uso:
-const materiales = obtenerMaterialesFormulario();
-console.log(materiales); // ["Lápiz", "Regla", "Borrador", "Lapicero"]
-
-// Obtener listas seleccionadas
-function obtenerListasSeleccionadas() {
-    const checkboxes = document.querySelectorAll('#tblListas input[type="checkbox"]:checked');
-    return Array.from(checkboxes).map(checkbox => checkbox.getAttribute('data-id'));
+        document.getElementById('formLista').reset();
+        mostrarAlerta('Lista guardada correctamente', 'success');
+        await cargarListas();
+        
+    } catch (error) {
+        console.error('Error al guardar lista:', error);
+        mostrarAlerta('Error: ' + (error.message || 'Error desconocido'), 'danger');
+    } finally {
+        const submitBtn = document.getElementById('btnGuardarLista');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="bi bi-save"></i> Guardar Lista`;
+        }
+    }
 }
 
-// Eliminar listas seleccionadas
-async function eliminarListas() {
-    const listasSeleccionadas = obtenerListasSeleccionadas();
-    
-    if (listasSeleccionadas.length === 0) {
-        mostrarMensaje("Por favor seleccione al menos una lista", "warning");
-        return;
-    }
-    
-    if (!confirm(`¿Está seguro de eliminar ${listasSeleccionadas.length} lista(s)?`)) return;
+async function eliminarLista(event) {
+    if (!confirm('¿Está seguro de eliminar esta lista?')) return;
+
+    const button = event.currentTarget;
+    if (!button) return;
 
     try {
-        const resultados = await Promise.all(
-            listasSeleccionadas.map(id => 
-                fetch(`http://localhost:3000/api/listas/${id}`, {
-                    method: "DELETE",
-                    headers: { "Content-Type": "application/json" }
-                })
-            )
-        );
+        const id = button.getAttribute('data-id');
+        if (!id) throw new Error('ID no válido');
 
-        const errores = resultados.filter(r => !r.ok);
-        if (errores.length > 0) throw new Error("Algunas listas no se pudieron eliminar");
-        
-        mostrarMensaje("Listas eliminadas exitosamente", "success");
-        obtenerListas();
+        button.disabled = true;
+        button.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Eliminando...
+        `;
+
+        const response = await fetch(`/api/listas/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.text() || 'Error al eliminar');
+        }
+
+        mostrarAlerta('Lista eliminada correctamente', 'success');
+        await cargarListas();
     } catch (error) {
-        mostrarMensaje("Error al eliminar listas", "error");
-        console.error(error);
+        console.error('Error al eliminar lista:', error);
+        mostrarAlerta('Error: ' + (error.message || 'Error al eliminar'), 'danger');
+    } finally {
+        button.disabled = false;
+        button.innerHTML = `<i class="bi bi-trash"></i> Eliminar`;
     }
 }
 
-// Modificar lista seleccionada
-function modificarLista() {
-    const listasSeleccionadas = obtenerListasSeleccionadas();
-    
-    if (listasSeleccionadas.length !== 1) {
-        mostrarMensaje("Por favor seleccione UNA lista para modificar", "warning");
-        return;
+function mostrarAlerta(mensaje, tipo = 'info') {
+    let alerta = document.getElementById('alerta-flotante');
+    if (!alerta) {
+        alerta = document.createElement('div');
+        alerta.id = 'alerta-flotante';
+        alerta.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+            min-width: 300px;
+        `;
+        document.body.appendChild(alerta);
     }
     
-    const listaId = listasSeleccionadas[0];
-    const lista = listas.find(l => l._id === listaId);
+    alerta.innerHTML = `
+        <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
+            ${mensaje}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
     
-    if (lista) {
-        // Llenar formulario con datos de la lista
-        inputNombreLista.value = lista.nombre;
-        selectNivelEducativo.value = lista.nivelEducativo._id;
-        // Llenar materiales
-        
-        modoEdicion = true;
-        listaIdEnEdicion = listaId;
-        btnGuardarLista.textContent = "Actualizar";
-    }
+    // Auto-ocultar después de 5 segundos
+    setTimeout(() => {
+        const bsAlert = new bootstrap.Alert(alerta.querySelector('.alert'));
+        bsAlert.close();
+    }, 5000);
 }
 
-// Cancelar edición
-function cancelarEdicionLista() {
-    modoEdicion = false;
-    listaIdEnEdicion = null;
-    btnGuardarLista.textContent = "Guardar";
-    limpiarFormularioLista();
+// Función auxiliar para seguridad XSS
+function escapeHTML(str) {
+    if (!str) return '';
+    return str.toString()
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
-
-// Limpiar formulario
-function limpiarFormularioLista() {
-    inputNombreLista.value = "";
-    selectNivelEducativo.value = "";
-    // Limpiar materiales
-}
-
-// Mostrar mensajes al usuario
-function mostrarMensaje(mensaje, tipo = "info") {
-    // Implementar según tu sistema de notificaciones
-    console.log(`${tipo.toUpperCase()}: ${mensaje}`);
-}
-
-// Event Listeners
-document.addEventListener("DOMContentLoaded", obtenerListas);
-btnGuardarLista.addEventListener("click", () => {
-    if (modoEdicion) actualizarLista();
-    else registrarLista();
-});
-btnCancelarLista.addEventListener("click", cancelarEdicionLista);
-
-// Implementar listeners para botones de eliminar/modificar según tu interfaz

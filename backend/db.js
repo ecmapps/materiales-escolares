@@ -25,7 +25,7 @@ aplicacion.use(cors());
 // }));
 
 //Conexion al Servidor
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect("mongodb+srv://jzunigaz:lospatos@clustercenfo.njqjiea.mongodb.net/finaldb?retryWrites=true&w=majority&appName=ClusterCenfo", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
